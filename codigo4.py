@@ -75,6 +75,7 @@ def leer_df_categoricos():
 
 # Seleccionar los features mas representativos para el modelo
 def feature_selection(df):
+	# Creamos vectorassembler
 	assembler = VectorAssembler(
 		inputCols=["Crossing","Finishing","HeadingAccuracy","ShortPassing","Volleys","Dribbling","Curve",
                    "FKAccuracy", "LongPassing","BallControl","Acceleration","SprintSpeed","Agility","Reactions",
@@ -84,6 +85,7 @@ def feature_selection(df):
 		outputCol="features")
 	df = assembler.transform(df)
 
+	# Vectorindexer   
 	indexer = VectorIndexer(
 		inputCol="features", 
 		outputCol="indexedFeatures")
@@ -114,12 +116,16 @@ def entrenamiento(df):
 	entrenador = DecisionTreeClassifier(
 		labelCol="Position", 
 		featuresCol="features")
+
+	# Creacion de pipeline
 	pipeline = Pipeline(stages=[entrenador])
+    # Se entrena el modelo
 	model = pipeline.fit(training_df)
 
 	# Prediccion
 	predictions_df = model.transform(test_df)
 
+	# Evaluador --> Accuracy
 	evaluator = MulticlassClassificationEvaluator(
 		labelCol="Position",
 		predictionCol="prediction",
