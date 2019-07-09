@@ -103,7 +103,7 @@ def entrenamiento(df):
 	# Vectorizo
 	df = df.select("Finishing", "ShortPassing", "BallControl", "Stamina", "SlidingTackle", "GKReflexes", "Crossing", "Agility", "Position", "Dribbling", "SprintSpeed")
 	assembler = VectorAssembler(
-		inputCols=["Finishing", "ShortPassing", "BallControl", "Stamina", "SlidingTackle", "GKReflexes", "Crossing", "Agility"],
+		inputCols=["Finishing", "ShortPassing", "BallControl", "Stamina", "SlidingTackle", "GKReflexes", "Crossing", "Agility", "Dribbling", "SprintSpeed"],
 		outputCol="features")
 	df = assembler.transform(df)
 
@@ -130,8 +130,8 @@ def entrenamiento(df):
 	print("Exactitud: {}".format(exactitud))
 
 def main():
-	df = leer_df()
-	#df = leer_df_categoricos()
+	#df = leer_df()
+	df = leer_df_categoricos()
 	#feature_selection(df)
 	entrenamiento(df)
 	
